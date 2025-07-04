@@ -28,8 +28,8 @@
 ### 💻 桌面应用下载
 如果您不想自己编译，可以直接下载已编译的桌面版本：
 
-- **Windows 安装包**: [下载 Note-Memory-Palace-Setup.exe](https://github.com/Azraelkay/Note-Memory-Palace-Basic/releases/latest/download/Note-Memory-Palace-Setup.exe)
-- **Windows 便携版**: [下载 Note-Memory-Palace-Portable.zip](https://github.com/Azraelkay/Note-Memory-Palace-Basic/releases/latest/download/Note-Memory-Palace-Portable.zip)
+- **Windows 安装包**: [下载 Note-Memory-Palace-Basic-Setup.exe](https://github.com/Azraelkay/Note-Memory-Palace-Basic/releases/latest/download/Note-Memory-Palace-Basic-Setup.exe)
+- **Windows 便携版**: [下载 Note-Memory-Palace-Basic-Portable.exe](https://github.com/Azraelkay/Note-Memory-Palace-Basic/releases/latest/download/Note-Memory-Palace-Basic-Portable.exe)
 
 > 💡 **提示**: 便携版无需安装，解压即可使用！
 
