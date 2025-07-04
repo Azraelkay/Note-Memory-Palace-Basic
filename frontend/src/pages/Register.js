@@ -117,8 +117,8 @@ const Register = () => {
       return;
     }
 
-    if (!emailVerified) {
-      setError('请先验证邮箱');
+    if (!verificationCode) {
+      setError('请输入邮箱验证码');
       return;
     }
 
@@ -127,12 +127,15 @@ const Register = () => {
 
     try {
       // 调用注册方法
-      const result = await register({
+      const registerData = {
         username,
         email,
         password,
-        verificationCode: emailVerified ? 'verified' : verificationCode
-      });
+        verificationCode: verificationCode // 直接使用用户输入的验证码
+      };
+
+      console.log('注册数据:', registerData);
+      const result = await register(registerData);
 
       // 检查注册结果
       if (result && (result.success || result.message || result.user)) {
@@ -252,14 +255,14 @@ const Register = () => {
           <button
             type="submit"
             className="btn btn-block"
-            disabled={loading || !emailVerified}
+            disabled={loading || !verificationCode}
           >
             {loading ? '注册中...' : '注册'}
           </button>
 
-          {!emailVerified && (
+          {!verificationCode && (
             <div className="registration-hint">
-              💡 请先验证邮箱后再注册
+              💡 请先获取并输入邮箱验证码
             </div>
           )}
         </form>
