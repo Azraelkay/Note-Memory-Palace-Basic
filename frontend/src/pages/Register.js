@@ -127,19 +127,23 @@ const Register = () => {
 
     try {
       // 调用注册方法
-      const success = await register({
+      const result = await register({
         username,
         email,
         password,
         verificationCode: emailVerified ? 'verified' : verificationCode
       });
 
-      if (success) {
+      // 检查注册结果
+      if (result && (result.success || result.message || result.user)) {
         setSuccess('注册成功！正在跳转...');
         setTimeout(() => navigate('/'), 1500);
+      } else {
+        setError('注册失败，请重试');
       }
     } catch (err) {
-      setError(err.message || '注册失败');
+      console.error('注册错误:', err);
+      setError(err.message || '注册失败，请重试');
     } finally {
       setLoading(false);
     }

@@ -169,7 +169,7 @@ export const cloudApi = {
       expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000 // 30天
     });
     
-    return {
+    const result = {
       success: true,
       message: '注册成功！欢迎使用Note智能笔记',
       user: {
@@ -182,6 +182,9 @@ export const cloudApi = {
       },
       token
     };
+
+    console.log('云端注册成功:', result);
+    return result;
   },
 
   // 用户登录
