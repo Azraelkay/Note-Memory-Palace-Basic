@@ -23,7 +23,20 @@
 - 个人资料管理
 - 数据隔离
 
-## 🚀 快速开始
+## 📥 快速下载
+
+### 💻 桌面应用下载
+如果您不想自己编译，可以直接下载已编译的桌面版本：
+
+- **Windows 安装包**: [下载 Note-Memory-Palace-Setup.exe](https://github.com/Azraelkay/Note-Memory-Palace-Basic/releases/latest/download/Note-Memory-Palace-Setup.exe)
+- **Windows 便携版**: [下载 Note-Memory-Palace-Portable.zip](https://github.com/Azraelkay/Note-Memory-Palace-Basic/releases/latest/download/Note-Memory-Palace-Portable.zip)
+
+> 💡 **提示**: 便携版无需安装，解压即可使用！
+
+### 🌐 在线体验
+- [在线演示版本](https://azraelkay.github.io/Note-Memory-Palace-Basic) *(即将推出)*
+
+## 🚀 开发者快速开始
 
 ### 环境要求
 - Node.js 16+
@@ -34,8 +47,8 @@
 
 1. **克隆项目**
 ```bash
-git clone https://github.com/yourusername/Note-Basic-OpenSource.git
-cd Note-Basic-OpenSource
+git clone https://github.com/Azraelkay/Note-Memory-Palace-Basic.git
+cd Note-Memory-Palace-Basic
 ```
 
 2. **安装前端依赖**
@@ -148,8 +161,8 @@ Note-Basic-OpenSource/
 
 ## 🔗 相关链接
 
-- [项目主页](https://github.com/yourusername/Note-Basic-OpenSource)
-- [问题反馈](https://github.com/yourusername/Note-Basic-OpenSource/issues)
+- [项目主页](https://github.com/Azraelkay/Note-Memory-Palace-Basic)
+- [问题反馈](https://github.com/Azraelkay/Note-Memory-Palace-Basic/issues)
 - [更新日志](CHANGELOG.md)
 
 ## 💎 商业版本
@@ -171,4 +184,4 @@ Note-Basic-OpenSource/
 
 ⭐ 如果这个项目对您有帮助，请给我们一个Star！
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by [Azraelkay](https://github.com/Azraelkay)
