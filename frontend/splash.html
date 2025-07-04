@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note - 记忆宫殿启动中</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0B1426 0%, #1E3A8A 50%, #7C3AED 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 星空背景 */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* 神经网络画布 */
+        .neural-network {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .splash-container {
+            text-align: center;
+            color: white;
+            animation: fadeIn 2s ease-in-out;
+            z-index: 2;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #FCD34D;
+            text-shadow:
+                0 0 10px rgba(252, 211, 77, 0.5),
+                0 0 20px rgba(252, 211, 77, 0.3),
+                0 0 30px rgba(252, 211, 77, 0.2);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            letter-spacing: 3px;
+            color: #E5E7EB;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            animation: subtitleFloat 4s ease-in-out infinite;
+        }
+
+        .memory-palace-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            position: relative;
+            animation: iconRotate 8s linear infinite;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 2rem;
+        }
+
+        .neural-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FCD34D, #F59E0B);
+            box-shadow:
+                0 0 10px rgba(252, 211, 77, 0.6),
+                0 0 20px rgba(252, 211, 77, 0.3);
+            animation: neuralPulse 2s infinite ease-in-out;
+            position: relative;
+        }
+
+        .neural-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+
+        .neural-dot:nth-child(1) { animation-delay: 0s; }
+        .neural-dot:nth-child(2) { animation-delay: 0.3s; }
+        .neural-dot:nth-child(3) { animation-delay: 0.6s; }
+        .neural-dot:nth-child(4) { animation-delay: 0.9s; }
+        .neural-dot:nth-child(5) { animation-delay: 1.2s; }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes logoGlow {
+            0%, 100% {
+                text-shadow:
+                    0 0 10px rgba(252, 211, 77, 0.5),
+                    0 0 20px rgba(252, 211, 77, 0.3),
+                    0 0 30px rgba(252, 211, 77, 0.2);
+                transform: scale(1);
+            }
+            50% {
+                text-shadow:
+                    0 0 15px rgba(252, 211, 77, 0.8),
+                    0 0 30px rgba(252, 211, 77, 0.5),
+                    0 0 45px rgba(252, 211, 77, 0.3);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes subtitleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes iconRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes neuralPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow:
+                    0 0 10px rgba(252, 211, 77, 0.6),
+                    0 0 20px rgba(252, 211, 77, 0.3);
+            }
+            50% {
+                transform: scale(1.3);
+                box-shadow:
+                    0 0 20px rgba(252, 211, 77, 0.9),
+                    0 0 40px rgba(252, 211, 77, 0.6),
+                    0 0 60px rgba(252, 211, 77, 0.3);
+            }
+        }
+
+        .version {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 神经网络画布 -->
+    <canvas class="neural-network" id="neuralCanvas"></canvas>
+
+    <div class="splash-container">
+        <div class="memory-palace-icon" id="memoryIcon">
+            🏰
+        </div>
+        <div class="logo">Note</div>
+        <div class="subtitle">记忆宫殿 · 智能笔记</div>
+        <div class="loading">
+            <div class="neural-dot"></div>
+            <div class="neural-dot"></div>
+            <div class="neural-dot"></div>
+            <div class="neural-dot"></div>
+            <div class="neural-dot"></div>
+        </div>
+    </div>
+    <div class="version">v1.0.0 - Memory Palace Edition</div>
+
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 神经网络动画
+        function initNeuralNetwork() {
+            const canvas = document.getElementById('neuralCanvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const nodes = [];
+            const nodeCount = 15;
+
+            // 创建节点
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 3 + 2,
+                    pulse: Math.random() * Math.PI * 2
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 更新和绘制节点
+                nodes.forEach((node, i) => {
+                    // 更新位置
+                    node.x += node.vx;
+                    node.y += node.vy;
+
+                    // 边界反弹
+                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+
+                    // 脉冲效果
+                    node.pulse += 0.02;
+                    const pulseSize = Math.sin(node.pulse) * 0.5 + 1;
+
+                    // 绘制连接线
+                    nodes.forEach((otherNode, j) => {
+                        if (i !== j) {
+                            const distance = Math.sqrt(
+                                Math.pow(node.x - otherNode.x, 2) +
+                                Math.pow(node.y - otherNode.y, 2)
+                            );
+
+                            if (distance < 150) {
+                                const opacity = (150 - distance) / 150 * 0.3;
+                                ctx.strokeStyle = `rgba(124, 58, 237, ${opacity})`;
+                                ctx.lineWidth = 1;
+                                ctx.beginPath();
+                                ctx.moveTo(node.x, node.y);
+                                ctx.lineTo(otherNode.x, otherNode.y);
+                                ctx.stroke();
+                            }
+                        }
+                    });
+
+                    // 绘制节点
+                    const gradient = ctx.createRadialGradient(
+                        node.x, node.y, 0,
+                        node.x, node.y, node.radius * pulseSize
+                    );
+                    gradient.addColorStop(0, 'rgba(252, 211, 77, 0.8)');
+                    gradient.addColorStop(1, 'rgba(252, 211, 77, 0.2)');
+
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius * pulseSize, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            initNeuralNetwork();
+
+            // 窗口大小改变时重新调整画布
+            window.addEventListener('resize', function() {
+                const canvas = document.getElementById('neuralCanvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        });
+    </script>
+</body>
+</html>

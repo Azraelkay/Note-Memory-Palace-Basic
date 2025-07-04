@@ -1,0 +1,510 @@
+/* 看板样式 */
+.kanban-board {
+  width: 100%;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+}
+
+.kanban-columns {
+  display: flex;
+  gap: 20px;
+  min-height: calc(100vh - 40px);
+  padding-bottom: 20px;
+}
+
+/* 列样式 */
+.kanban-column {
+  min-width: 300px;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.column-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px 12px 0 0;
+  border-top: 4px solid #007bff;
+}
+
+.column-title-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.column-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.card-count {
+  background: #6c757d;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.card-limit {
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.column-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.add-card-btn, .column-menu-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.add-card-btn:hover {
+  background: #007bff;
+  color: white;
+  transform: scale(1.1);
+}
+
+.column-menu-btn:hover {
+  background: #6c757d;
+  color: white;
+}
+
+/* 列内容区域 */
+.column-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  min-height: 200px;
+  transition: background-color 0.2s ease;
+}
+
+.column-content.drag-over {
+  background: rgba(0, 123, 255, 0.1);
+  border-radius: 8px;
+}
+
+/* 卡片样式 */
+.kanban-card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+  position: relative;
+}
+
+.kanban-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.kanban-card.dragging {
+  transform: rotate(5deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.card-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.card-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.card-checkbox:hover {
+  background: #007bff;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* 归档状态的卡片样式 */
+.kanban-card.archived {
+  opacity: 0.7;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  border-left-color: #6c757d;
+  position: relative;
+  overflow: hidden;
+}
+
+.kanban-card.archived::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(108, 117, 125, 0.1) 10px,
+    rgba(108, 117, 125, 0.1) 20px
+  );
+  pointer-events: none;
+}
+
+.kanban-card.archived .card-title {
+  text-decoration: line-through;
+  color: #6c757d;
+  position: relative;
+  z-index: 1;
+}
+
+.kanban-card.archived .card-description {
+  color: #6c757d;
+  opacity: 0.8;
+  position: relative;
+  z-index: 1;
+}
+
+.kanban-card.archived .card-checkbox {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.kanban-card.archived:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.priority-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.due-date {
+  font-size: 11px;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.due-date.overdue {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.card-title {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+.card-description {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.card-tag {
+  background: #e9ecef;
+  color: #495057;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.card-tag.more-tags {
+  background: #6c757d;
+  color: white;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.assignee, .linked-note {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.card-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.kanban-card:hover .card-actions {
+  opacity: 1;
+}
+
+.card-action-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: #f8f9fa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: all 0.2s ease;
+}
+
+.card-action-btn:hover {
+  background: #007bff;
+  color: white;
+}
+
+.card-action-btn.delete:hover {
+  background: #dc3545;
+}
+
+/* 空列样式 */
+.empty-column {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d;
+}
+
+.empty-column p {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+}
+
+.add-first-card-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.add-first-card-btn:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* 添加新列 */
+.add-column {
+  min-width: 280px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 20px;
+}
+
+.add-column-btn {
+  width: 100%;
+  min-height: 120px;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.add-column-btn:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.add-icon {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+/* 加载和错误状态 */
+.kanban-loading, .kanban-error, .kanban-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #6c757d;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.retry-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.retry-button:hover {
+  background: #0056b3;
+}
+
+/* 拖拽提示 */
+.drag-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.drag-hint {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .kanban-board {
+    padding: 10px;
+  }
+  
+  .kanban-columns {
+    gap: 10px;
+  }
+  
+  .kanban-column {
+    min-width: 280px;
+  }
+  
+  .column-header {
+    padding: 12px 16px;
+  }
+  
+  .column-content {
+    padding: 12px;
+  }
+  
+  .kanban-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kanban-column {
+    min-width: 260px;
+  }
+  
+  .card-title {
+    font-size: 13px;
+  }
+  
+  .card-description {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日历删除功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+        .log {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .event-item {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>日历删除功能测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 登录测试</h2>
+        <button class="btn-primary" onclick="testLogin()">测试登录</button>
+        <div id="loginLog" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 创建事件测试</h2>
+        <button class="btn-success" onclick="createTestEvent()">创建测试事件</button>
+        <div id="createLog" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 事件列表</h2>
+        <button class="btn-primary" onclick="loadEvents()">加载事件</button>
+        <div id="eventsList"></div>
+        <div id="eventsLog" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. 删除测试</h2>
+        <p>在上面的事件列表中点击"删除"按钮测试删除功能</p>
+        <div id="deleteLog" class="log"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let authToken = null;
+        
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+        }
+        
+        async function testLogin() {
+            const loginLog = document.getElementById('loginLog');
+            loginLog.textContent = '';
+            
+            try {
+                log('loginLog', '正在登录...');
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'demo',
+                        password: 'demo123'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    authToken = data.token;
+                    log('loginLog', '登录成功！Token: ' + authToken.substring(0, 20) + '...');
+                } else {
+                    log('loginLog', '登录失败: ' + data.error);
+                }
+            } catch (error) {
+                log('loginLog', '登录请求失败: ' + error.message);
+            }
+        }
+        
+        async function createTestEvent() {
+            const createLog = document.getElementById('createLog');
+            createLog.textContent = '';
+            
+            if (!authToken) {
+                log('createLog', '请先登录！');
+                return;
+            }
+            
+            try {
+                log('createLog', '正在创建测试事件...');
+                const response = await fetch(`${API_BASE}/calendar/events`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        title: '测试事件 ' + new Date().getTime(),
+                        description: '这是一个测试删除功能的事件',
+                        start_datetime: '2025-07-01T10:00:00',
+                        end_datetime: '2025-07-01T11:00:00',
+                        category: '测试',
+                        color: '#ff0000'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('createLog', '事件创建成功！ID: ' + data.event.id);
+                    loadEvents(); // 自动刷新事件列表
+                } else {
+                    log('createLog', '事件创建失败: ' + data.error);
+                }
+            } catch (error) {
+                log('createLog', '创建事件请求失败: ' + error.message);
+            }
+        }
+        
+        async function loadEvents() {
+            const eventsLog = document.getElementById('eventsLog');
+            const eventsList = document.getElementById('eventsList');
+            eventsLog.textContent = '';
+            eventsList.innerHTML = '';
+            
+            if (!authToken) {
+                log('eventsLog', '请先登录！');
+                return;
+            }
+            
+            try {
+                log('eventsLog', '正在加载事件...');
+                const response = await fetch(`${API_BASE}/calendar/events?start_date=2025-07-01&end_date=2025-07-31`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    const events = data.events || [];
+                    log('eventsLog', `加载成功！共 ${events.length} 个事件`);
+                    
+                    events.forEach(event => {
+                        const eventDiv = document.createElement('div');
+                        eventDiv.className = 'event-item';
+                        eventDiv.innerHTML = `
+                            <span>${event.title} (ID: ${event.id})</span>
+                            <button class="btn-danger" onclick="deleteEvent(${event.id})">删除</button>
+                        `;
+                        eventsList.appendChild(eventDiv);
+                    });
+                } else {
+                    log('eventsLog', '加载事件失败: ' + data.error);
+                }
+            } catch (error) {
+                log('eventsLog', '加载事件请求失败: ' + error.message);
+            }
+        }
+        
+        async function deleteEvent(eventId) {
+            const deleteLog = document.getElementById('deleteLog');
+            
+            if (!authToken) {
+                log('deleteLog', '请先登录！');
+                return;
+            }
+            
+            if (!confirm('确定要删除这个事件吗？')) {
+                return;
+            }
+            
+            try {
+                log('deleteLog', `正在删除事件 ${eventId}...`);
+                const response = await fetch(`${API_BASE}/calendar/events/${eventId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('deleteLog', `事件 ${eventId} 删除成功！`);
+                    loadEvents(); // 自动刷新事件列表
+                } else {
+                    log('deleteLog', `删除事件 ${eventId} 失败: ` + data.error);
+                }
+            } catch (error) {
+                log('deleteLog', `删除事件 ${eventId} 请求失败: ` + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
