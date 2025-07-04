@@ -91,19 +91,27 @@ export const sendVerificationCode = async (email) => {
 export const verifyEmailCode = async (email, code) => {
   await delay(500);
 
+  // 基础版本：允许通用验证码 "12345" 用于测试
+  if (code.toString() === '12345') {
+    return {
+      success: true,
+      message: '邮箱验证成功（测试模式）'
+    };
+  }
+
   const storedData = emailVerificationCodes.get(email);
 
   if (!storedData) {
-    throw new Error('验证码不存在或已过期');
+    throw new Error('验证码不存在或已过期（或使用测试验证码：12345）');
   }
 
   if (Date.now() > storedData.expires) {
     emailVerificationCodes.delete(email);
-    throw new Error('验证码已过期');
+    throw new Error('验证码已过期（或使用测试验证码：12345）');
   }
 
   if (storedData.code !== code) {
-    throw new Error('验证码错误');
+    throw new Error('验证码错误（或使用测试验证码：12345）');
   }
 
   // 验证成功，删除验证码

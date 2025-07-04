@@ -69,25 +69,33 @@ export const cloudApi = {
   // 验证邮箱验证码
   async verifyEmailCode(email, code) {
     await delay(500);
-    
-    const storedData = verificationCodes.get(email);
-    
-    if (!storedData) {
-      throw new Error('验证码不存在或已过期，请重新获取');
+
+    // 基础版本：允许通用验证码 "12345" 用于测试
+    if (code.toString() === '12345') {
+      return {
+        success: true,
+        message: '邮箱验证成功（测试模式）'
+      };
     }
-    
+
+    const storedData = verificationCodes.get(email);
+
+    if (!storedData) {
+      throw new Error('验证码不存在或已过期，请重新获取（或使用测试验证码：12345）');
+    }
+
     if (Date.now() > storedData.expires) {
       verificationCodes.delete(email);
-      throw new Error('验证码已过期，请重新获取');
+      throw new Error('验证码已过期，请重新获取（或使用测试验证码：12345）');
     }
-    
+
     if (storedData.code !== code.toString()) {
-      throw new Error('验证码错误，请重新输入');
+      throw new Error('验证码错误，请重新输入（或使用测试验证码：12345）');
     }
-    
+
     // 验证成功，删除验证码
     verificationCodes.delete(email);
-    
+
     return {
       success: true,
       message: '邮箱验证成功'
