@@ -18,6 +18,7 @@ import StatsPage from './pages/StatsPage';
 import DataExportPage from './pages/DataExportPage';
 import TemplatesPage from './pages/TemplatesPage';
 import MindMapPage from './pages/MindMapPage';
+import ExtensionsTest from './pages/ExtensionsTest';
 
 // 布局组件
 import Header from './components/Header';
@@ -47,6 +48,7 @@ const App = () => {
               <Route path="/notes" element={<Notes />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/trash" element={<Trash />} />
+              <Route path="/extensions" element={<ExtensionsTest />} />
 
               {/* VIP功能页面 */}
               <Route path="/calendar" element={<CalendarPage />} />

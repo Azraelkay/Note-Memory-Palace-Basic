@@ -93,17 +93,22 @@ const ExtensionsTest = () => {
               className={`extension-card ${extension.isPremium ? 'premium' : ''}`}
               onClick={() => handleExtensionClick(extension)}
             >
+              {/* VIP角标 */}
+              {extension.isPremium && (
+                <div className="vip-corner">
+                  <div className="vip-text">VIP</div>
+                  <div className="vip-lock">🔒</div>
+                </div>
+              )}
+
               <div className="extension-header">
                 <div className="extension-icon">{extension.icon}</div>
                 <div className="extension-info">
                   <h3 className="extension-name">{extension.name}</h3>
-                  {extension.isPremium && (
-                    <span className="premium-badge">VIP专享</span>
-                  )}
+                  <span className={`extension-status ${extension.isPremium ? 'status-vip' : 'status-available'}`}>
+                    {extension.isPremium ? 'VIP专享' : '可使用'}
+                  </span>
                 </div>
-                {extension.isPremium && (
-                  <div className="lock-icon">🔒</div>
-                )}
               </div>
 
               <p className="extension-description">{extension.description}</p>

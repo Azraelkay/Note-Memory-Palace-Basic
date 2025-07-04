@@ -7,7 +7,7 @@ const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuActive, setUserMenuActive] = useState(false);
-  const [extensionsMenuOpen, setExtensionsMenuOpen] = useState(false);
+
 
 
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const Header = () => {
     const handleClickOutside = (event) => {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
         setUserMenuActive(false);
-        setExtensionsMenuOpen(false);
+
       }
     };
 
@@ -191,51 +191,16 @@ const Header = () => {
                 </li>
               )}
 
-              {/* 扩展功能下拉菜单 - 仅在已登录时显示 */}
+              {/* 扩展功能直接链接 - 仅在已登录时显示 */}
               {isAuthenticated && (
-                <li className="nav-item extensions-dropdown">
-                  <button
-                    className="dropdown-button extensions-button"
-                    onClick={() => setExtensionsMenuOpen(!extensionsMenuOpen)}
+                <li className="nav-item extensions-link-item">
+                  <Link
+                    to="/extensions"
+                    className={`extensions-link ${location.pathname === '/extensions' ? 'active' : ''}`}
                     title="扩展功能"
                   >
                     <span className="extensions-icon">🧩</span>
-                    <span className="dropdown-arrow">▼</span>
-                  </button>
-                  {extensionsMenuOpen && (
-                    <div className="dropdown-menu extensions-menu">
-                      <Link to="/calendar" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
-                        <span className="item-icon">📅</span>
-                        <span className="item-text">日历视图</span>
-                        <span className="vip-badge">VIP</span>
-                      </Link>
-                      <Link to="/kanban" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
-                        <span className="item-icon">📋</span>
-                        <span className="item-text">看板管理</span>
-                        <span className="vip-badge">VIP</span>
-                      </Link>
-                      <Link to="/mindmap" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
-                        <span className="item-icon">🧠</span>
-                        <span className="item-text">思维导图</span>
-                        <span className="vip-badge">VIP</span>
-                      </Link>
-                      <Link to="/stats" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
-                        <span className="item-icon">📊</span>
-                        <span className="item-text">数据统计</span>
-                        <span className="vip-badge">VIP</span>
-                      </Link>
-                      <Link to="/templates" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
-                        <span className="item-icon">📄</span>
-                        <span className="item-text">模板库</span>
-                        <span className="vip-badge">VIP</span>
-                      </Link>
-                      <Link to="/export" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
-                        <span className="item-icon">📤</span>
-                        <span className="item-text">数据导出</span>
-                        <span className="vip-badge">VIP</span>
-                      </Link>
-                    </div>
-                  )}
+                  </Link>
                 </li>
               )}
 
