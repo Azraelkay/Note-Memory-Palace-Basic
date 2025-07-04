@@ -1,3 +1,50 @@
+import React from 'react';
+import VipUpgradePrompt from '../components/VipUpgradePrompt';
+
+const KanbanPage = () => {
+  return (
+    <VipUpgradePrompt
+      featureName="看板管理"
+      featureIcon="📋"
+      description="Kanban风格的任务管理，将笔记组织成待办、进行中、已完成状态"
+      features={[
+        '拖拽式任务管理',
+        '自定义看板列',
+        '任务优先级设置',
+        '进度跟踪',
+        '团队协作',
+        '数据统计分析'
+      ]}
+      previewContent={
+        <div className="kanban-preview">
+          <div className="preview-header">
+            <h1>📋 看板管理</h1>
+            <button>新建看板</button>
+          </div>
+          <div className="preview-board">
+            <div className="kanban-columns">
+              <div className="kanban-column">
+                <h3>待办事项</h3>
+                <div className="kanban-card">任务1</div>
+                <div className="kanban-card">任务2</div>
+              </div>
+              <div className="kanban-column">
+                <h3>进行中</h3>
+                <div className="kanban-card">任务3</div>
+              </div>
+              <div className="kanban-column">
+                <h3>已完成</h3>
+                <div className="kanban-card">任务4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    />
+  );
+};
+
+/* 原始代码保留作为注释，以便将来VIP版本使用
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -333,3 +380,4 @@ const KanbanPage = () => {
 };
 
 export default KanbanPage;
+*/

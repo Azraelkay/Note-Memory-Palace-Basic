@@ -7,6 +7,7 @@ const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuActive, setUserMenuActive] = useState(false);
+  const [extensionsMenuOpen, setExtensionsMenuOpen] = useState(false);
 
 
   const navigate = useNavigate();
@@ -121,6 +122,7 @@ const Header = () => {
     const handleClickOutside = (event) => {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
         setUserMenuActive(false);
+        setExtensionsMenuOpen(false);
       }
     };
 
@@ -186,6 +188,54 @@ const Header = () => {
                   >
                     <span className="trash-icon">🗑️</span>
                   </Link>
+                </li>
+              )}
+
+              {/* 扩展功能下拉菜单 - 仅在已登录时显示 */}
+              {isAuthenticated && (
+                <li className="nav-item extensions-dropdown">
+                  <button
+                    className="dropdown-button extensions-button"
+                    onClick={() => setExtensionsMenuOpen(!extensionsMenuOpen)}
+                    title="扩展功能"
+                  >
+                    <span className="extensions-icon">🧩</span>
+                    <span className="dropdown-arrow">▼</span>
+                  </button>
+                  {extensionsMenuOpen && (
+                    <div className="dropdown-menu extensions-menu">
+                      <Link to="/calendar" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
+                        <span className="item-icon">📅</span>
+                        <span className="item-text">日历视图</span>
+                        <span className="vip-badge">VIP</span>
+                      </Link>
+                      <Link to="/kanban" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
+                        <span className="item-icon">📋</span>
+                        <span className="item-text">看板管理</span>
+                        <span className="vip-badge">VIP</span>
+                      </Link>
+                      <Link to="/mindmap" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
+                        <span className="item-icon">🧠</span>
+                        <span className="item-text">思维导图</span>
+                        <span className="vip-badge">VIP</span>
+                      </Link>
+                      <Link to="/stats" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
+                        <span className="item-icon">📊</span>
+                        <span className="item-text">数据统计</span>
+                        <span className="vip-badge">VIP</span>
+                      </Link>
+                      <Link to="/templates" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
+                        <span className="item-icon">📄</span>
+                        <span className="item-text">模板库</span>
+                        <span className="vip-badge">VIP</span>
+                      </Link>
+                      <Link to="/export" className="dropdown-item" onClick={() => setExtensionsMenuOpen(false)}>
+                        <span className="item-icon">📤</span>
+                        <span className="item-text">数据导出</span>
+                        <span className="vip-badge">VIP</span>
+                      </Link>
+                    </div>
+                  )}
                 </li>
               )}
 
@@ -850,6 +900,98 @@ const Header = () => {
           opacity: 1;
           visibility: visible;
           transform: translateY(0) scale(1);
+        }
+
+        /* 扩展功能下拉菜单样式 */
+        .extensions-dropdown {
+          position: relative;
+        }
+
+        .extensions-button {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 12px;
+          background: var(--card-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          color: var(--text-color);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 14px;
+          backdrop-filter: blur(10px);
+        }
+
+        .extensions-button:hover {
+          background: var(--hover-color);
+          border-color: var(--primary-color);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .extensions-icon {
+          font-size: 16px;
+          filter: drop-shadow(0 0 4px rgba(252, 211, 77, 0.4));
+        }
+
+        .extensions-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          margin-top: 8px;
+          background: var(--card-bg);
+          backdrop-filter: blur(15px);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          box-shadow: var(--shadow-lg);
+          min-width: 200px;
+          z-index: 1000;
+          overflow: hidden;
+        }
+
+        .extensions-menu .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 16px;
+          color: var(--text-color);
+          text-decoration: none !important;
+          transition: all 0.2s ease;
+          border-bottom: 1px solid var(--border-color);
+          position: relative;
+        }
+
+        .extensions-menu .dropdown-item:last-child {
+          border-bottom: none;
+        }
+
+        .extensions-menu .dropdown-item:hover {
+          background: var(--hover-color);
+          transform: translateX(4px);
+        }
+
+        .extensions-menu .item-icon {
+          font-size: 16px;
+          width: 20px;
+          text-align: center;
+        }
+
+        .extensions-menu .item-text {
+          flex: 1;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .vip-badge {
+          background: linear-gradient(135deg, #FCD34D, #F59E0B);
+          color: #1F2937;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 2px 6px;
+          border-radius: 4px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
         }
 
 

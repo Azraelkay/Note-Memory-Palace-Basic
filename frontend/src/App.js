@@ -9,6 +9,15 @@ import ForgotPassword from './pages/ForgotPassword';
 import Notes from './pages/Notes';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
+import Trash from './pages/Trash';
+
+// VIP功能页面
+import CalendarPage from './pages/CalendarPage';
+import KanbanPage from './pages/KanbanPage';
+import StatsPage from './pages/StatsPage';
+import DataExportPage from './pages/DataExportPage';
+import TemplatesPage from './pages/TemplatesPage';
+import MindMapPage from './pages/MindMapPage';
 
 // 布局组件
 import Header from './components/Header';
@@ -37,6 +46,15 @@ const App = () => {
             <Route element={<ProtectedRoute />}>
               <Route path="/notes" element={<Notes />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/trash" element={<Trash />} />
+
+              {/* VIP功能页面 */}
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/kanban" element={<KanbanPage />} />
+              <Route path="/stats" element={<StatsPage />} />
+              <Route path="/export" element={<DataExportPage />} />
+              <Route path="/templates" element={<TemplatesPage />} />
+              <Route path="/mindmap" element={<MindMapPage />} />
             </Route>
 
             {/* 404页面 */}

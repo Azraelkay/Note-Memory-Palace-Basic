@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Calendar from '../components/Calendar';
 import EventModal from '../components/EventModal';
+import VipUpgradePrompt from '../components/VipUpgradePrompt';
 import api from '../services/api';
 
 const CalendarPage = () => {
@@ -173,6 +174,46 @@ const CalendarPage = () => {
     );
   }
 
+  // 在基础版本中显示VIP升级提示
+  return (
+    <VipUpgradePrompt
+      featureName="日历视图"
+      featureIcon="📅"
+      description="按日历形式查看和管理笔记，支持日程安排和提醒功能"
+      features={[
+        '月视图、周视图、日视图切换',
+        '事件创建和编辑',
+        '智能提醒通知',
+        '与笔记关联',
+        '重复事件设置',
+        '日程导出功能'
+      ]}
+      previewContent={
+        <div className="calendar-preview">
+          <div className="preview-header">
+            <h1>📅 日历视图</h1>
+            <div className="view-controls">
+              <button>月视图</button>
+              <button>周视图</button>
+              <button>日视图</button>
+            </div>
+          </div>
+          <div className="preview-calendar">
+            <div className="calendar-grid">
+              {Array.from({length: 35}, (_, i) => (
+                <div key={i} className="calendar-cell">
+                  {i % 7 === 0 && <span>{Math.floor(i/7) + 1}</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      }
+    />
+  );
+
+  // 原始代码保留作为注释，以便将来VIP版本使用
+  /*
   return (
     <div className="calendar-page">
       {/* 页面头部 */}
@@ -472,3 +513,4 @@ const CalendarPage = () => {
 };
 
 export default CalendarPage;
+*/
